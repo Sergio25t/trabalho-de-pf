@@ -1,0 +1,14 @@
+Torneio: Torneio AVE – Open de Vila Real
+Número de rondas: 3
+
+Jogadores (Nome, Género, Vitórias, Derrotas, AVE):
+- João Silva (M) — Vitórias: 3; Derrotas: 0; AVE: 1.000
+- Ana Sousa (F) — Vitórias: 3; Derrotas: 0; AVE: 1.000
+- Miguel Pereira (M) — Vitórias: 2; Derrotas: 1; AVE: 0.667
+- Marta Santos (F) — Vitórias: 2; Derrotas: 1; AVE: 0.667
+- Beatriz Rocha (F) — Vitórias: 2; Derrotas: 1; AVE: 0.667
+- Rui Costa (M) — Vitórias: 1; Derrotas: 2; AVE: 0.333
+- Inês Almeida (F) — Vitórias: 1; Derrotas: 2; AVE: 0.333
+- Tiago Fernandes (M) — Vitórias: 1; Derrotas: 2; AVE: 0.333
+- Luís Martins (M) — Vitórias: 0; Derrotas: 3; AVE: 0.000
+- Sofia Carvalho (F) — Vitórias: 0; Derrotas: 3; AVE: 0.000

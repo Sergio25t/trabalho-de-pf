@@ -1,0 +1,154 @@
+Taça Nacional de Clubes – Eliminatórias Diretas 2025
+Registo de Resultados dos Jogos (Campos Preenchidos com ###)
+======================================================================
+
+Oitavos de Final – J1
+  FC Porto  vs  Moreirense
+  Pontuação A: ###   Pontuação B: ###
+  Data: ###   Hora: ###   Local: ###
+  Árbitro/Oficial: ###
+  Estado: ###
+  Vencedor: ###
+  Observações: ###
+----------------------------------------------------------------------
+
+Oitavos de Final – J2
+  SL Benfica  vs  Arouca
+  Pontuação A: ###   Pontuação B: ###
+  Data: ###   Hora: ###   Local: ###
+  Árbitro/Oficial: ###
+  Estado: ###
+  Vencedor: ###
+  Observações: ###
+----------------------------------------------------------------------
+
+Oitavos de Final – J3
+  Sporting CP  vs  Farense
+  Pontuação A: ###   Pontuação B: ###
+  Data: ###   Hora: ###   Local: ###
+  Árbitro/Oficial: ###
+  Estado: ###
+  Vencedor: ###
+  Observações: ###
+----------------------------------------------------------------------
+
+Oitavos de Final – J4
+  SC Braga  vs  Portimonense
+  Pontuação A: ###   Pontuação B: ###
+  Data: ###   Hora: ###   Local: ###
+  Árbitro/Oficial: ###
+  Estado: ###
+  Vencedor: ###
+  Observações: ###
+----------------------------------------------------------------------
+
+Oitavos de Final – J5
+  Vitória SC  vs  Famalicão
+  Pontuação A: ###   Pontuação B: ###
+  Data: ###   Hora: ###   Local: ###
+  Árbitro/Oficial: ###
+  Estado: ###
+  Vencedor: ###
+  Observações: ###
+----------------------------------------------------------------------
+
+Oitavos de Final – J6
+  Boavista FC  vs  Casa Pia AC
+  Pontuação A: ###   Pontuação B: ###
+  Data: ###   Hora: ###   Local: ###
+  Árbitro/Oficial: ###
+  Estado: ###
+  Vencedor: ###
+  Observações: ###
+----------------------------------------------------------------------
+
+Oitavos de Final – J7
+  Gil Vicente FC  vs  Estoril Praia
+  Pontuação A: ###   Pontuação B: ###
+  Data: ###   Hora: ###   Local: ###
+  Árbitro/Oficial: ###
+  Estado: ###
+  Vencedor: ###
+  Observações: ###
+----------------------------------------------------------------------
+
+Oitavos de Final – J8
+  Marítimo  vs  Rio Ave FC
+  Pontuação A: ###   Pontuação B: ###
+  Data: ###   Hora: ###   Local: ###
+  Árbitro/Oficial: ###
+  Estado: ###
+  Vencedor: ###
+  Observações: ###
+----------------------------------------------------------------------
+
+Quartos de Final – J9
+  Vencedor J1  vs  Vencedor J2
+  Pontuação A: ###   Pontuação B: ###
+  Data: ###   Hora: ###   Local: ###
+  Árbitro/Oficial: ###
+  Estado: ###
+  Vencedor: ###
+  Observações: ###
+----------------------------------------------------------------------
+
+Quartos de Final – J10
+  Vencedor J3  vs  Vencedor J4
+  Pontuação A: ###   Pontuação B: ###
+  Data: ###   Hora: ###   Local: ###
+  Árbitro/Oficial: ###
+  Estado: ###
+  Vencedor: ###
+  Observações: ###
+----------------------------------------------------------------------
+
+Quartos de Final – J11
+  Vencedor J5  vs  Vencedor J6
+  Pontuação A: ###   Pontuação B: ###
+  Data: ###   Hora: ###   Local: ###
+  Árbitro/Oficial: ###
+  Estado: ###
+  Vencedor: ###
+  Observações: ###
+----------------------------------------------------------------------
+
+Quartos de Final – J12
+  Vencedor J7  vs  Vencedor J8
+  Pontuação A: ###   Pontuação B: ###
+  Data: ###   Hora: ###   Local: ###
+  Árbitro/Oficial: ###
+  Estado: ###
+  Vencedor: ###
+  Observações: ###
+----------------------------------------------------------------------
+
+Meias-finais – J13
+  Vencedor J9  vs  Vencedor J10
+  Pontuação A: ###   Pontuação B: ###
+  Data: ###   Hora: ###   Local: ###
+  Árbitro/Oficial: ###
+  Estado: ###
+  Vencedor: ###
+  Observações: ###
+----------------------------------------------------------------------
+
+Meias-finais – J14
+  Vencedor J11  vs  Vencedor J12
+  Pontuação A: ###   Pontuação B: ###
+  Data: ###   Hora: ###   Local: ###
+  Árbitro/Oficial: ###
+  Estado: ###
+  Vencedor: ###
+  Observações: ###
+----------------------------------------------------------------------
+
+Final – J15
+  Vencedor J13  vs  Vencedor J14
+  Pontuação A: ###   Pontuação B: ###
+  Data: ###   Hora: ###   Local: ###
+  Árbitro/Oficial: ###
+  Estado: ###
+  Vencedor: ###
+  Observações: ###
+----------------------------------------------------------------------
+
