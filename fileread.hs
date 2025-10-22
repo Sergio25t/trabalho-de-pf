@@ -1,162 +1,200 @@
-module FileRead (
-    readTorneioElim,
-    readResultadosTorneioElim,
-    readTorneioAVE,
-    readResultadosTorneioAVE,
-    printTorneioElim,
-    printResultadosTorneioElim,
-    printTorneioAVE,
-    printResultadosTorneioAVE
-) where
+{-# LANGUAGE DeriveGeneric #-}
 
+import GHC.Generics
 import System.IO
 
--- Função para substituir caracteres especiais por hífen
-replaceSpecialChars :: String -> String
-replaceSpecialChars = map (\c -> if c == '\8211' then '-' else c)
+-- Estruturas de Dados
 
--- Tipos de Dados
+-- Estrutura para os dados do Torneio AVE
+data JogadorAVE = JogadorAVE
+  { nomeJogadorAVE :: String
+  , generoAVE :: String
+  , vitoriasAVE :: Int
+  , derrotasAVE :: Int
+  , ave :: Float
+  } deriving (Show, Generic)
 
--- Para o torneio Eliminatórias
-data TorneioElim = TorneioElim String [String]  -- Nome do Torneio e Listagem de Equipas
+data TorneioAVE = TorneioAVE
+  { nomeTorneioAVE :: String
+  , numeroRondas :: Int
+  , jogadoresAVE :: [JogadorAVE]
+  } deriving (Show, Generic)
 
--- Para os resultados Eliminatórias
-data ResultadoElim = ResultadoElim String String String String String String String String String String  -- Jogo, Equipa A, Equipa B, Pontuação A, Pontuação B, Data, Hora, Local, Árbitro/Oficial, Vencedor
+-- Estrutura para os resultados do Torneio AVE
+data ResultadoAVE = ResultadoAVE
+  { jogador1 :: String
+  , jogador2 :: String
+  , score :: String
+  , vencedor :: String
+  } deriving (Show, Generic)
 
--- Para o torneio AVE
-data JogadorAVE = JogadorAVE String String Int Int Double  -- Nome, Género, Vitórias, Derrotas, AVE
-data TorneioAVE = TorneioAVE String Int [JogadorAVE]  -- Nome, Rondas, Jogadores
+-- Estrutura para os dados do Torneio Eliminatórias
+data MatchElim = MatchElim
+  { time1Elim :: String
+  , time2Elim :: String
+  , pontuacaoA :: String
+  , pontuacaoB :: String
+  , vencedorElim :: String
+  } deriving (Show, Generic)
 
--- Para os resultados AVE
-data ResultadoAVE = ResultadoAVE String String Int Int String  -- Jogo, Vencedor, Pontuação A, Pontuação B, Data
+data TorneioElim = TorneioElim
+  { nomeTorneioElim :: String
+  , clubesParticipantes :: [String]
+  , matchesElim :: [MatchElim]
+  } deriving (Show, Generic)
 
--- Funções de Leitura (Leitura de arquivos simples)
+-- Estrutura para os resultados do Torneio Eliminatórias
+data ResultadoElim = ResultadoElim
+  { time1ElimRes :: String
+  , time2ElimRes :: String
+  , resultadoElim :: String
+  , vencedorElimRes :: String
+  } deriving (Show, Generic)
 
-readTorneioElim :: String -> IO (Either String TorneioElim)
-readTorneioElim filename = do
-    contents <- readFile filename
-    let linhas = lines contents
-        nome = replaceSpecialChars (head linhas)  -- Substitui caracteres especiais no nome do torneio
-        equipas = map (takeWhile (/= ',') . drop 1) (tail linhas)
-    return $ Right (TorneioElim nome equipas)
+-- Funções de Leitura
 
-readResultadosTorneioElim :: String -> IO (Either String [ResultadoElim])
-readResultadosTorneioElim filename = do
-    contents <- readFile filename
-    let linhas = lines contents
-        resultados = map parseResultado (filter (\line -> "J" `elem` words line) (tail linhas))  -- Filtra apenas as linhas que contêm "J" (Jogos)
-    return $ Right resultados
-  where
-    parseResultado line =
-        let campos = wordsBy (==',') line
-        in if length campos >= 10
-           then ResultadoElim (replaceSpecialChars (campos !! 0)) (replaceSpecialChars (campos !! 1)) (replaceSpecialChars (campos !! 2)) (campos !! 3) (campos !! 4) (campos !! 5) (campos !! 6) (campos !! 7) (campos !! 8) (campos !! 9)
-           else ResultadoElim "Erro" "Erro" "Erro" "Erro" "Erro" "Erro" "Erro" "Erro" "Erro"
+-- Leitura do Torneio AVE
+readTorneioAVE :: String -> IO TorneioAVE
+readTorneioAVE filePath = do
+  content <- readFile filePath
+  let parsedContent = parseTorneioAVE content
+  return parsedContent
 
--- Função auxiliar para dividir strings por um delimitador
-wordsBy :: (Char -> Bool) -> String -> [String]
-wordsBy p s =  case dropWhile p s of
-                 "" -> []
-                 s' -> w : wordsBy p s''
-                       where (w, s'') = break p s'
+parseTorneioAVE :: String -> TorneioAVE
+parseTorneioAVE content =
+  let linesOfFile = lines content
+      header = head linesOfFile
+      body = tail linesOfFile
+      nomeTorneio = head (words header)
+      numeroRondas = read (head (tail (words header))) :: Int
+      jogadores = map parseJogadorAVE body
+  in TorneioAVE nomeTorneio numeroRondas jogadores
 
--- Funções de Leitura para o torneio AVE
+parseJogadorAVE :: String -> JogadorAVE
+parseJogadorAVE line =
+  let [nome, genero, vitorias, derrotas, aveStr] = words line
+      ave = read aveStr :: Float
+  in JogadorAVE nome genero (read vitorias) (read derrotas) ave
 
-readTorneioAVE :: String -> IO (Either String TorneioAVE)
-readTorneioAVE filename = do
-    contents <- readFile filename
-    let linhas = lines contents
-        nome = replaceSpecialChars (head linhas)  -- Substitui caracteres especiais no nome do torneio
-        rondas = 3  -- Número fixo de rondas para este exemplo
-        jogadores = parseJogadores (drop 2 linhas)
-    return $ Right (TorneioAVE nome rondas jogadores)
-  where
-    parseJogadores lines = map parseJogador lines
-    parseJogador line = 
-        let [nome, gen, vit, der, ave] = words line
-        in JogadorAVE nome gen (read vit) (read der) (read ave)
+-- Leitura dos Resultados do Torneio AVE
+readResultadosTorneioAVE :: String -> IO [ResultadoAVE]
+readResultadosTorneioAVE filePath = do
+  content <- readFile filePath
+  let parsedResults = parseResultadosTorneioAVE content
+  return parsedResults
 
-readResultadosTorneioAVE :: String -> IO (Either String [ResultadoAVE])
-readResultadosTorneioAVE filename = do
-    contents <- readFile filename
-    let linhas = lines contents
-        resultados = map parseResultado (tail linhas)
-    return $ Right resultados
-  where
-    parseResultado line = 
-        let [jogo, vencedor, pA, pB, dataJogo] = words line
-        in ResultadoAVE jogo vencedor (read pA) (read pB) dataJogo
+parseResultadosTorneioAVE :: String -> [ResultadoAVE]
+parseResultadosTorneioAVE content =
+  let linesOfFile = lines content
+  in map parseResultadoAVE linesOfFile
 
--- Funções de Escrita (Impressão no Ecrã)
+parseResultadoAVE :: String -> ResultadoAVE
+parseResultadoAVE line =
+  let [jogador1, _, jogador2, "→", score, "(Vencedor:", vencedor] = words line
+  in ResultadoAVE jogador1 jogador2 score (init vencedor)
 
-printTorneioElim :: String -> TorneioElim -> IO ()
-printTorneioElim nomeTorneio (TorneioElim _ equipas) = do
-    putStrLn $ nomeTorneio ++ " – Eliminatórias Diretas 2025"
-    putStrLn "Participantes:"
-    mapM_ putStrLn equipas
+-- Leitura do Torneio Eliminatórias
+readTorneioElim :: String -> IO TorneioElim
+readTorneioElim filePath = do
+  content <- readFile filePath
+  let parsedTorneioElim = parseTorneioElim content
+  return parsedTorneioElim
 
-printResultadosTorneioElim :: [ResultadoElim] -> IO ()
-printResultadosTorneioElim resultados = do
-    putStrLn "--- Resultados Eliminatórias ---"
-    mapM_ printResultado resultados
-  where
-    printResultado (ResultadoElim jogo equipaA equipaB pA pB dataJogo hora local arbitro vencedor) = do
-        putStrLn $ jogo ++ ": " ++ equipaA ++ " vs " ++ equipaB
-        putStrLn $ "Pontuação: " ++ pA ++ "-" ++ pB
-        putStrLn $ "Data: " ++ dataJogo ++ ", Hora: " ++ hora
-        putStrLn $ "Local: " ++ local ++ ", Árbitro: " ++ arbitro
-        putStrLn $ "Vencedor: " ++ vencedor
+parseTorneioElim :: String -> TorneioElim
+parseTorneioElim content =
+  let linesOfFile = lines content
+      header = head linesOfFile
+      clubes = map head . map (words) . takeWhile (/= "") . tail $ linesOfFile
+      matches = map parseMatchElim (drop (length clubes + 1) linesOfFile)
+  in TorneioElim "Taça Nacional de Clubes" clubes matches
 
+parseMatchElim :: String -> MatchElim
+parseMatchElim line =
+  let [time1, _, time2, _, scoreA, _, scoreB, _, _, winner] = words line
+  in MatchElim time1 time2 scoreA scoreB winner
+
+-- Leitura dos Resultados do Torneio Eliminatórias
+readResultadosTorneioElim :: String -> IO [ResultadoElim]
+readResultadosTorneioElim filePath = do
+  content <- readFile filePath
+  let parsedResults = parseResultadosTorneioElim content
+  return parsedResults
+
+parseResultadosTorneioElim :: String -> [ResultadoElim]
+parseResultadosTorneioElim content =
+  let linesOfFile = lines content
+  in map parseResultadoElim linesOfFile
+
+parseResultadoElim :: String -> ResultadoElim
+parseResultadoElim line =
+  let [time1, time2, resultado, vencedor] = words line
+  in ResultadoElim time1 time2 resultado vencedor
+
+-- Funções de Impressão
+
+-- Função para imprimir os dados do Torneio AVE
 printTorneioAVE :: TorneioAVE -> IO ()
-printTorneioAVE (TorneioAVE nome rondas jogadores) = do
-    putStrLn $ "Torneio: " ++ nome
-    putStrLn $ "Número de rondas: " ++ show rondas
-    putStrLn "Jogadores (Nome, Género, Vitórias, Derrotas, AVE):"
-    mapM_ printJogador jogadores
-  where
-    printJogador (JogadorAVE nome gen vit der ave) = do
-        putStrLn $ nome ++ " (" ++ gen ++ ") — Vitórias: " ++ show vit ++ "; Derrotas: " ++ show der ++ "; AVE: " ++ show ave
+printTorneioAVE torneio =
+  putStrLn ("Torneio: " ++ nomeTorneioAVE torneio ++ "\nNúmero de Rondas: " ++ show (numeroRondas torneio)) >>
+  mapM_ printJogadorAVE (jogadoresAVE torneio)
 
+printJogadorAVE :: JogadorAVE -> IO ()
+printJogadorAVE jogador =
+  putStrLn (nomeJogadorAVE jogador ++ " (" ++ generoAVE jogador ++ ") — Vitórias: " ++ show (vitoriasAVE jogador) ++ "; Derrotas: " ++ show (derrotasAVE jogador) ++ "; AVE: " ++ show (ave jogador))
+
+-- Função para imprimir os resultados do Torneio AVE
 printResultadosTorneioAVE :: [ResultadoAVE] -> IO ()
-printResultadosTorneioAVE resultados = do
-    putStrLn "--- Resultados ---"
-    mapM_ printResultado resultados
-  where
-    printResultado (ResultadoAVE jogo vencedor pA pB dataJogo) = do
-        putStrLn $ jogo ++ " → " ++ vencedor ++ " (" ++ show pA ++ "-" ++ show pB ++ ")"
-        putStrLn $ "Data: " ++ dataJogo
+printResultadosTorneioAVE resultados =
+  mapM_ printResultadoAVE resultados
 
--- Função main para testar
+printResultadoAVE :: ResultadoAVE -> IO ()
+printResultadoAVE resultado =
+  putStrLn (jogador1 resultado ++ " vs " ++ jogador2 resultado ++ " → " ++ score resultado ++ " (Vencedor: " ++ vencedor resultado ++ ")")
 
+-- Função para imprimir os dados do Torneio Eliminatórias
+printTorneioElim :: String -> TorneioElim -> IO ()
+printTorneioElim nome torneio =
+  putStrLn ("Torneio: " ++ nome ++ "\nClubes Participantes:") >>
+  mapM_ putStrLn (clubesParticipantes torneio) >>
+  mapM_ printMatchElim (matchesElim torneio)
+
+printMatchElim :: MatchElim -> IO ()
+printMatchElim match =
+  putStrLn (time1Elim match ++ " vs " ++ time2Elim match ++ " - " ++ pontuacaoA match ++ " : " ++ pontuacaoB match ++ " (Vencedor: " ++ vencedorElim match ++ ")")
+
+-- Função para imprimir os resultados do Torneio Eliminatórias
+printResultadosTorneioElim :: [ResultadoElim] -> IO ()
+printResultadosTorneioElim resultados =
+  mapM_ printResultadoElim resultados
+
+printResultadoElim :: ResultadoElim -> IO ()
+printResultadoElim resultado =
+  putStrLn (time1ElimRes resultado ++ " vs " ++ time2ElimRes resultado ++ " → " ++ resultadoElim resultado ++ " (Vencedor: " ++ vencedorElimRes resultado ++ ")")
+
+-- Função main para processar e imprimir os dados
 main :: IO ()
 main = do
-    -- Exemplo de uso das funções de leitura
-    torneioElim <- readTorneioElim "torneio_16_clubes.txt"
-    resultadosElim <- readResultadosTorneioElim "resultados_torneio_16_clubes.csv"
-    torneioAVE <- readTorneioAVE "torneio_ave_vila_real.txt"
-    resultadosAVE <- readResultadosTorneioAVE "resultados_torneio_ave_vila_real.txt"
-    
-    -- Exemplo de uso das funções de escrita
-    case torneioElim of
-        Left err -> putStrLn $ "Erro ao ler o torneio de Eliminatórias: " ++ err
-        Right torneio -> printTorneioElim "Taça Nacional de Clubes" torneio
-    
-    case resultadosElim of
-        Left err -> putStrLn $ "Erro ao ler os resultados Eliminatórias: " ++ err
-        Right resultados -> printResultadosTorneioElim resultados
-    
-    case torneioAVE of
-        Left err -> putStrLn $ "Erro ao ler o torneio AVE: " ++ err
-        Right torneio -> printTorneioAVE torneio
-    
-    case resultadosAVE of
-        Left err -> putStrLn $ "Erro ao ler os resultados AVE: " ++ err
-        Right resultados -> printResultadosTorneioAVE resultados
+  -- Caminhos para os ficheiros
+  let caminhoTorneioAVE = "torneio_ave_vila_real.csv"
+  let caminhoResultadosTorneioAVE = "resultados_torneio_ave_vila_real.csv"
+  let caminhoTorneioElim = "torneio_16_clubes.csv"
+  let caminhoResultadosTorneioElim = "resultados_torneio_16_clubes.csv"
 
+  -- Ler os dados do Torneio AVE
+  torneioAVE <- readTorneioAVE caminhoTorneioAVE
+  printTorneioAVE torneioAVE
 
+  -- Ler e imprimir os resultados do Torneio AVE
+  resultadosAVE <- readResultadosTorneioAVE caminhoResultadosTorneioAVE
+  printResultadosTorneioAVE resultadosAVE
 
+  -- Ler os dados do Torneio Eliminatórias
+  torneioElim <- readTorneioElim caminhoTorneioElim
+  printTorneioElim "Torneio Eliminatórias" torneioElim
 
-
+  -- Ler e imprimir os resultados do Torneio Eliminatórias
+  resultadosElim <- readResultadosTorneioElim caminhoResultadosTorneioElim
+  printResultadosTorneioElim resultadosElim
 
 
 
