@@ -1,9 +1,3 @@
-{-# OPTIONS_GHC -Wno-unrecognised-pragmas #-}
-{-# HLINT ignore "Replace case with fromMaybe" #-}
-{-# HLINT ignore "Use when" #-}
-{-# HLINT ignore "Redundant if" #-}
-{-# HLINT ignore "Redundant return" #-}
-
 import Text.Read (readMaybe)
 import Data.Maybe (fromMaybe)
 import Data.List (groupBy)
